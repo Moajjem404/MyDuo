@@ -28,7 +28,7 @@
 Get the latest APK directly from the GitHub Releases page:
 
 <p align="center">
-  <a href="https://github.com/Moajjem404/MyDuo/releases/download/v0.3/app-release.apk">
+  <a href="https://github.com/Moajjem404/MyDuo/releases/download/Apk/app-release.apk">
     <img src="https://img.shields.io/badge/📥%20Download%20APK%20(v0.3)-FF4081?style=for-the-badge&logoColor=white" height="45" alt="Download APK">
   </a>
 </p>
