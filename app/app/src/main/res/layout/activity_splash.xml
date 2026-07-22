@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splash_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/animated_gradient">
+
+    <!-- Decorative floating particles (small dots) -->
+    <View
+        android:id="@+id/particle_1"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="120dp"
+        android:background="@android:drawable/presence_online"
+        android:backgroundTint="#50FF4081"
+        android:alpha="0" />
+
+    <View
+        android:id="@+id/particle_2"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="200dp"
+        android:background="@android:drawable/presence_online"
+        android:backgroundTint="#40FF539B"
+        android:alpha="0" />
+
+    <View
+        android:id="@+id/particle_3"
+        android:layout_width="3dp"
+        android:layout_height="3dp"
+        android:layout_marginStart="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="180dp"
+        android:background="@android:drawable/presence_online"
+        android:backgroundTint="#35C7186C"
+        android:alpha="0" />
+
+    <View
+        android:id="@+id/particle_4"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="250dp"
+        android:background="@android:drawable/presence_online"
+        android:backgroundTint="#45FF4081"
+        android:alpha="0" />
+
+    <!-- Center content -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Animated ring container -->
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center">
+
+            <!-- Outer orbit ring (rotating) -->
+            <View
+                android:id="@+id/orbit_ring_outer"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@drawable/splash_orbit_ring"
+                android:alpha="0" />
+
+            <!-- Inner orbit ring (rotating opposite) -->
+            <View
+                android:id="@+id/orbit_ring_inner"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_gravity="center"
+                android:background="@drawable/splash_orbit_ring"
+                android:alpha="0" />
+
+            <!-- Radial glow behind logo -->
+            <View
+                android:id="@+id/glow_ring"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center"
+                android:background="@drawable/splash_glow_ring"
+                android:alpha="0" />
+
+            <!-- App Logo (circular) -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_splash_logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/app_logo"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                app:strokeColor="#FF4081"
+                app:strokeWidth="3dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="MyDuo Logo"
+                android:alpha="0" />
+
+        </FrameLayout>
+
+        <!-- App Title "My" + "Duo" -->
+        <LinearLayout
+            android:id="@+id/title_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:alpha="0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My"
+                android:textSize="42sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duo"
+                android:textSize="42sp"
+                android:textColor="#FF4081"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05" />
+        </LinearLayout>
+
+        <!-- Subtitle with typewriter effect -->
+        <TextView
+            android:id="@+id/tv_splash_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/gray_light"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="8dp"
+            android:alpha="0"
+            android:letterSpacing="0.08" />
+
+        <!-- Shimmer loading line -->
+        <View
+            android:id="@+id/shimmer_line"
+            android:layout_width="120dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/splash_shimmer_line"
+            android:alpha="0" />
+
+        <!-- Version text -->
+        <TextView
+            android:id="@+id/tv_splash_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="v0.3"
+            android:textColor="#50FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginTop="12dp"
+            android:alpha="0" />
+
+    </LinearLayout>
+
+    <!-- Footer credit -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:alpha="0">
+
+        <View
+            android:layout_width="60dp"
+            android:layout_height="1dp"
+            android:background="#30FF4081"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_splash_footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_light"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+        <View
+            android:layout_width="60dp"
+            android:layout_height="1dp"
+            android:background="#30FF4081"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

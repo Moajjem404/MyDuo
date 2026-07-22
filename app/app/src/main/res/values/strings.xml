@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyDuo</string>
+    <string name="welcome_title">Welcome to MyDuo</string>
+    <string name="welcome_subtitle">Your private romantic couple space</string>
+</resources>

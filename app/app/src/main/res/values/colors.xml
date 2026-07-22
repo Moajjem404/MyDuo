@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Romantic Color Palette -->
+    <color name="romantic_dark_bg">#0F041C</color>
+    <color name="romantic_dark_purple">#240938</color>
+    <color name="romantic_magenta">#530A3C</color>
+    <color name="romantic_pink">#C7186C</color>
+    <color name="romantic_light_pink">#FF539B</color>
+    <color name="romantic_glow">#FF007F</color>
+
+    <!-- Glassmorphism Tokens -->
+    <color name="glass_card_bg">#1FFFFFFF</color>
+    <color name="glass_card_stroke">#3DFFFFFF</color>
+    <color name="glass_card_bg_dark">#2E002B</color>
+
+    <!-- Standard Text & Utilities -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray_light">#D1C4E9</color>
+    <color name="gray_dark">#9575CD</color>
+    <color name="translucent_black">#66000000</color>
+</resources>

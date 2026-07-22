@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MyDuo" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your Light and Dark themes here. -->
+        <item name="colorPrimary">@color/romantic_pink</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/romantic_magenta</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        
+        <item name="colorSecondary">@color/romantic_light_pink</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <!-- Background/window customizations -->
+        <item name="android:windowBackground">@color/romantic_dark_bg</item>
+        <item name="android:statusBarColor">@color/romantic_dark_bg</item>
+        <item name="android:navigationBarColor">@color/romantic_dark_bg</item>
+        <item name="android:windowAnimationStyle">@style/Theme.MyDuo.Animations</item>
+    </style>
+
+    <!-- Custom Activity transition animations style -->
+    <style name="Theme.MyDuo.Animations" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <!-- Shape appearance for circular profile image -->
+    <style name="ShapeAppearance.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>
