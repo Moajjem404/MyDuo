@@ -61,8 +61,8 @@ Get the latest APK directly from the GitHub Releases page:
 ### 🚀 Quick Setup
 
 1. Create a Telegram Bot via [@BotFather](https://t.me/BotFather) and get your **Bot Token**.
-2. Create a private Telegram Group with your partner, add your Bot, and get the **GChat ID**.
-3. Open **MyDuo**, enter the Bot Token and Group ID, and you are ready to stay connected!
+2. Go To [@MissRose_bot](https://t.me/MissRose_bot) Send Message /id, and get the **Chat ID**.
+3. Open **MyDuo**, enter the Bot Token and Chat ID, and you are ready to stay connected!
 
 ---
 
