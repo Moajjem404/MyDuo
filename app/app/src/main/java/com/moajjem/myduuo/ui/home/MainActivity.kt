@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         pulseRing = findViewById(R.id.pulse_ring)
         tvFooterAuthor = findViewById(R.id.tv_footer_author)
         findViewById<TextView>(R.id.tv_footer_credit_text).apply {
-            text = android.text.Html.fromHtml("Made with ❤️ by <font color='#FF4081'><u>Moajjem</u></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
+            text = android.text.Html.fromHtml("Made with <font color='#FF4081'>❤️</font> by <font color='#FF80AB'><b><u>Moajjem</u></b></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
         }
 
         // Heart pulse ring animation
@@ -157,9 +157,34 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 
-        // Footer action -> Profile Page
-        tvFooterAuthor.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+        // Quick Love Ping Listeners
+        fun setupPingButton(buttonId: Int, message: String) {
+            findViewById<Button>(buttonId).setOnClickListener { view ->
+                try {
+                    view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+                } catch (ignored: Exception) {}
+                view.animate().scaleX(1.08f).scaleY(1.08f).setDuration(120).withEndAction {
+                    view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                }.start()
+                sendLovePing(message)
+            }
+        }
+
+        setupPingButton(R.id.btn_ping_miss_you, "I Miss You So Much! 🥺")
+        setupPingButton(R.id.btn_ping_good_night, "Good Night My Love 😴")
+        setupPingButton(R.id.btn_ping_good_morning, "Good Morning Sweetheart ☀️")
+        setupPingButton(R.id.btn_ping_thinking_of_you, "Thinking of You... 💭")
+        setupPingButton(R.id.btn_ping_love_you, "Love You Forever! 💗")
+
+        // Footer action -> Profile Page with animation & haptics
+        tvFooterAuthor.setOnClickListener { view ->
+            try {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+            } catch (ignored: Exception) {}
+            view.animate().scaleX(1.08f).scaleY(1.08f).setDuration(120).withEndAction {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
+            }.start()
         }
 
         // Network check and dynamic offline overlay toggles
@@ -335,57 +360,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mapAppIcon(appName: String, imageView: ImageView) {
-        val url = when (appName) {
-            "Chrome" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/120px-Google_Chrome_icon_%28February_2022%29.svg.png"
-            "Facebook" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/120px-Facebook_Logo_%282019%29.png"
-            "Telegram" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/120px-Telegram_logo.svg.png"
-            "Messenger" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Facebook_Messenger_logo_2020.svg/120px-Facebook_Messenger_logo_2020.svg.png"
-            "Instagram" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.png/120px-Instagram_logo_2016.png"
-            "YouTube" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.png/120px-YouTube_full-color_icon_%282017%29.png"
-            "WhatsApp" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png"
-            else -> null
+        val cleanName = appName.trim().lowercase(java.util.Locale.getDefault())
+        val localRes = when {
+            cleanName.contains("chrome") -> R.drawable.ic_app_chrome
+            cleanName.contains("facebook") && !cleanName.contains("messenger") && !cleanName.contains("orca") -> R.drawable.ic_app_facebook
+            cleanName.contains("telegram") || cleanName.contains("org.telegram") -> R.drawable.ic_app_telegram
+            cleanName.contains("messenger") || cleanName.contains("orca") || cleanName.contains("mlite") -> R.drawable.ic_app_messenger
+            cleanName.contains("instagram") -> R.drawable.ic_app_instagram
+            cleanName.contains("youtube") || cleanName.contains("yt") -> R.drawable.ic_app_youtube
+            cleanName.contains("whatsapp") -> R.drawable.ic_app_whatsapp
+            cleanName.contains("tiktok") || cleanName.contains("tik tok") || cleanName.contains("musically") -> R.drawable.ic_app_tiktok
+            cleanName.contains("twitter") || cleanName == "x" -> R.drawable.ic_app_twitter
+            cleanName.contains("snapchat") -> R.drawable.ic_app_snapchat
+            cleanName.contains("spotify") -> R.drawable.ic_app_spotify
+            cleanName.contains("netflix") -> R.drawable.ic_app_netflix
+            cleanName.contains("gmail") || cleanName.contains("mail") || cleanName.contains("android.gm") -> R.drawable.ic_app_gmail
+            cleanName.contains("discord") -> R.drawable.ic_app_discord
+            cleanName.contains("linkedin") -> R.drawable.ic_app_linkedin
+            cleanName.contains("reddit") -> R.drawable.ic_app_reddit
+            cleanName.contains("camera") -> R.drawable.ic_app_camera
+            cleanName.contains("phone") || cleanName.contains("dialer") || cleanName.contains("call") -> R.drawable.ic_app_phone
+            cleanName.contains("setting") -> R.drawable.ic_app_settings
+            cleanName.contains("launcher") || cleanName.contains("home") || cleanName.contains("poco") || cleanName.contains("pixel") || cleanName.contains("oneui") || cleanName.contains("miui") -> R.drawable.ic_app_launcher
+            cleanName.contains("locked") || cleanName.contains("lock") || cleanName.contains("screen off") || cleanName.contains("off") -> R.drawable.ic_app_locked
+            else -> R.drawable.ic_app_default
         }
-
-        if (url == null) {
-            imageView.setImageResource(android.R.drawable.ic_secure)
-            return
-        }
-
-        val cacheFile = File(filesDir, "${appName.lowercase()}_icon.png")
-        if (cacheFile.exists()) {
-            try {
-                val bitmap = BitmapFactory.decodeFile(cacheFile.absolutePath)
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap)
-                    return
-                }
-            } catch (e: Exception) {
-                // download
-            }
-        }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            val client = okhttp3.OkHttpClient()
-            val request = okhttp3.Request.Builder().url(url).build()
-            try {
-                client.newCall(request).execute().use { response ->
-                    if (response.isSuccessful) {
-                        val bytes = response.body?.bytes()
-                        if (bytes != null) {
-                            cacheFile.writeBytes(bytes)
-                            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                            if (bitmap != null) {
-                                withContext(Dispatchers.Main) {
-                                    imageView.setImageBitmap(bitmap)
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        imageView.setImageResource(localRes)
+        imageView.imageTintList = null // Clear any color tint so vector colors display properly
     }
 
     private fun checkForAppUpdates() {
@@ -449,6 +450,44 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                         }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun sendLovePing(messageText: String) {
+        val botToken = appRepository.getBotToken()
+        val groupId = appRepository.getGroupId()
+        val senderId = appRepository.getSenderId()
+
+        if (botToken.isNullOrEmpty() || groupId.isNullOrEmpty() || senderId.isNullOrEmpty()) {
+            Toast.makeText(this, "Please complete app setup first!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        Toast.makeText(this, "Sending Love Ping... 💖", Toast.LENGTH_SHORT).show()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val payload = org.json.JSONObject().apply {
+                    put("type", "love_ping")
+                    put("ping", messageText)
+                    put("sender", senderId)
+                    put("time", (System.currentTimeMillis() / 1000).toString())
+                }.toString()
+
+                val msgId = com.moajjem.myduuo.data.TelegramBotManager.sendMessage(botToken, groupId, payload)
+                if (msgId > 0) {
+                    com.moajjem.myduuo.data.TelegramBotManager.pinChatMessage(botToken, groupId, msgId)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@MainActivity, "Love Ping Sent to Partner! 💖", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@MainActivity, "Failed to send Love Ping. Check connection.", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {

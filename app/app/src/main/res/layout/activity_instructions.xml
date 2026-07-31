@@ -56,7 +56,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/glass_card"
+                android:background="@drawable/glass_card_pink_border"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:layout_marginBottom="16dp">
@@ -65,8 +65,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Step 1: Create a Telegram Group"
-                    android:textColor="@color/romantic_light_pink"
-                    android:textSize="14sp"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -75,6 +76,7 @@
                     android:text="Go to Telegram and create a new Group (e.g., 'MyDuo'). Add both yourself and your partner to this group."
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginTop="6dp"
                     android:lineSpacingMultiplier="1.2" />
             </LinearLayout>
@@ -83,7 +85,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/glass_card"
+                android:background="@drawable/glass_card_purple_border"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:layout_marginBottom="16dp">
@@ -92,8 +94,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Step 2: Create a Bot via @BotFather"
-                    android:textColor="@color/romantic_light_pink"
-                    android:textSize="14sp"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -102,6 +105,7 @@
                     android:text="1. Search for @BotFather in Telegram and send /newbot.\n2. Enter a name and username for your bot.\n3. BotFather will provide an HTTP API Token. Copy this Token."
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginTop="6dp"
                     android:lineSpacingMultiplier="1.2" />
             </LinearLayout>
@@ -110,7 +114,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/glass_card"
+                android:background="@drawable/glass_card_pink_border"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:layout_marginBottom="16dp">
@@ -119,8 +123,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Step 3: Add Bot to Group as Admin"
-                    android:textColor="@color/romantic_light_pink"
-                    android:textSize="14sp"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -129,6 +134,7 @@
                     android:text="Add your bot to the Telegram group you created. Promote it to Administrator and ensure the 'Pin Messages' permission is enabled. The app relies on this permission to sync states."
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginTop="6dp"
                     android:lineSpacingMultiplier="1.2" />
             </LinearLayout>
@@ -137,7 +143,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/glass_card"
+                android:background="@drawable/glass_card_gold_border"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:layout_marginBottom="16dp">
@@ -146,8 +152,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Step 4: Retrieve Group ID"
-                    android:textColor="@color/romantic_light_pink"
-                    android:textSize="14sp"
+                    android:textColor="@color/font_secondary_gold"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -156,6 +163,7 @@
                     android:text="1. Send a text message to the group after adding your bot.\n2. Open your web browser and visit the following URL (replace with your Bot Token):\nhttps://api.telegram.org/bot[YOUR_BOT_TOKEN]/getUpdates\n3. Look for 'chat':{'id':-100xxxxxx} in the response. Copy the complete ID, including the minus sign (e.g., -1001234567890)."
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginTop="6dp"
                     android:lineSpacingMultiplier="1.2" />
             </LinearLayout>
@@ -164,7 +172,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/glass_card"
+                android:background="@drawable/glass_card_pink_border"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:layout_marginBottom="16dp">
@@ -173,8 +181,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Step 5: Complete Setup &amp; Permissions"
-                    android:textColor="@color/romantic_light_pink"
-                    android:textSize="14sp"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <TextView
@@ -183,6 +192,7 @@
                     android:text="1. Install the app on both devices and configure them using the SAME Bot Token and Group ID.\n2. Grant the requested Usage Access and Notification permissions when prompted.\n3. To ensure uninterrupted background sync, disable battery optimizations (set to Unrestricted/Don't Optimize) in Android settings."
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginTop="6dp"
                     android:lineSpacingMultiplier="1.2" />
             </LinearLayout>

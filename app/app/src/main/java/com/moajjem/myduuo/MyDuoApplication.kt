@@ -39,12 +39,24 @@ class MyDuoApplication : Application() {
                 enableVibration(true)
                 setShowBadge(true)
             }
-            manager.createNotificationChannel(partnerChannel)
+            // Channel for partner love ping notifications
+            val lovePingChannel = NotificationChannel(
+                CHANNEL_LOVE_PING_ID,
+                "Love Pings & Instant Messages",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Notifies you instantly with custom sound when your partner sends a Love Ping."
+                enableLights(true)
+                enableVibration(true)
+                setShowBadge(true)
+            }
+            manager.createNotificationChannel(lovePingChannel)
         }
     }
 
     companion object {
         const val CHANNEL_SERVICE_ID = "myduo_service_channel"
         const val CHANNEL_PARTNER_ID = "myduo_partner_channel"
+        const val CHANNEL_LOVE_PING_ID = "myduo_love_ping_channel"
     }
 }

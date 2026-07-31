@@ -65,11 +65,11 @@
                 android:clickable="true"
                 android:focusable="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📺"
-                    android:textSize="24sp" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_ui_tutorial"
+                    android:contentDescription="Tutorial Video Icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Watch Tutorial"
+                        android:text="Watch Setup Tutorial"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -90,7 +90,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tap here to watch setup video guide 🎬"
+                        android:text="Tap here to watch video guide 🎬"
                         android:textColor="@color/romantic_light_pink"
                         android:textSize="12sp"
                         android:layout_marginTop="2dp" />
@@ -105,22 +105,63 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Glassmorphic Input Form -->
+            <!-- Mode Selector Switcher Tabs -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/glass_card"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:orientation="horizontal"
+                android:padding="4dp">
 
-                <!-- Bot Token Input -->
+                <!-- Mode 1: Create New Connection -->
+                <Button
+                    android:id="@+id/btn_tab_create"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="➕ New Connection"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/romantic_pink"
+                    app:cornerRadius="20dp" />
+
+                <!-- Mode 2: Connect with Partner Code -->
+                <Button
+                    android:id="@+id/btn_tab_join"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="🔗 Partner Code"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/gray_light"
+                    android:backgroundTint="@color/glass_card_bg_dark"
+                    app:cornerRadius="20dp" />
+
+            </LinearLayout>
+
+            <!-- PANEL 1: Create New Connection (Manual Entry) -->
+            <LinearLayout
+                android:id="@+id/panel_create_connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/glass_card_pink_border"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="visible">
+
+                <!-- 1. Telegram Bot Token Input -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Telegram Bot Token"
-                    android:textColor="@color/romantic_light_pink"
+                    android:textColor="@color/font_primary_pink"
                     android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <EditText
@@ -132,19 +173,21 @@
                     android:textColorHint="@color/gray_dark"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:paddingHorizontal="16dp"
                     android:background="@drawable/glass_card"
                     android:inputType="textPassword"
                     android:singleLine="true" />
 
-                <!-- Chat ID Input -->
+                <!-- 2. Chat ID Input -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Add your Chat ID"
-                    android:textColor="@color/romantic_light_pink"
+                    android:text="Telegram Chat / Group ID"
+                    android:textColor="@color/font_primary_pink"
                     android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <EditText
@@ -156,19 +199,47 @@
                     android:textColorHint="@color/gray_dark"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:paddingHorizontal="16dp"
                     android:background="@drawable/glass_card"
                     android:inputType="text"
                     android:singleLine="true" />
 
-                <!-- Partner Display Name -->
+                <!-- 3. Your Name Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Your Name"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_my_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:hint="e.g. Moajjem"
+                    android:textColorHint="@color/gray_dark"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/glass_card"
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
+
+                <!-- 4. Partner Display Name -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Partner Name"
-                    android:textColor="@color/romantic_light_pink"
+                    android:textColor="@color/font_primary_pink"
                     android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <EditText
@@ -176,23 +247,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="6dp"
-                    android:hint="e.g. Honey / Sweetie"
+                    android:hint="e.g. Mun / Honey"
                     android:textColorHint="@color/gray_dark"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
                     android:paddingHorizontal="16dp"
                     android:background="@drawable/glass_card"
                     android:inputType="textPersonName"
                     android:singleLine="true" />
 
-                <!-- Gender Selection -->
+                <!-- 5. Your Gender Selection -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Your Gender"
-                    android:textColor="@color/romantic_light_pink"
+                    android:textColor="@color/font_primary_pink"
                     android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold" />
 
                 <RadioGroup
@@ -207,9 +280,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Male"
+                        android:text="Male ♂"
                         android:textColor="@color/white"
-                        android:buttonTint="@color/romantic_light_pink"
+                        android:buttonTint="@color/stroke_pink_glow"
                         android:checked="true" />
 
                     <RadioButton
@@ -217,9 +290,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Female"
+                        android:text="Female ♀"
                         android:textColor="@color/white"
-                        android:buttonTint="@color/romantic_light_pink" />
+                        android:buttonTint="@color/stroke_pink_glow" />
                 </RadioGroup>
 
                 <!-- Dynamic Generated Sender ID Display -->
@@ -228,13 +301,125 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Sender ID: Moajjem4821"
-                    android:textColor="@color/white"
+                    android:text="Sender ID: Moajjem"
+                    android:textColor="@color/font_secondary_gold"
                     android:gravity="center"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textStyle="bold"
+                    android:padding="10dp"
+                    android:background="@drawable/glass_card_gold_border" />
+
+            </LinearLayout>
+
+            <!-- PANEL 2: Connect with Partner Code -->
+            <LinearLayout
+                android:id="@+id/panel_join_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/glass_card_purple_border"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
+
+                <!-- Partner Code Title & Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paste Partner Connection Code"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/et_partner_code"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:hint="Paste MYDUO_... code"
+                        android:textColorHint="@color/gray_dark"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="16dp"
+                        android:background="@drawable/glass_card"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:id="@+id/btn_paste_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Paste"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/romantic_pink"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+
+                <!-- Code Status Badge -->
+                <TextView
+                    android:id="@+id/tv_code_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Enter or paste the connection code sent by your partner."
+                    android:textColor="@color/gray_light"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-medium"
                     android:padding="8dp"
                     android:background="@drawable/glass_card" />
+
+                <!-- Your Name Input for Join Mode -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Your Name (Optional)"
+                    android:textColor="@color/font_primary_pink"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_join_my_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:hint="e.g. Mun / Moajjem"
+                    android:textColorHint="@color/gray_dark"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/glass_card"
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
+
+                <!-- Dynamic Generated Sender ID Display for Join Mode -->
+                <TextView
+                    android:id="@+id/tv_join_generated_sender_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Sender ID: Partner"
+                    android:textColor="@color/font_secondary_gold"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:background="@drawable/glass_card_gold_border" />
 
             </LinearLayout>
 

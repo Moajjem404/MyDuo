@@ -8,10 +8,24 @@
     <color name="romantic_light_pink">#FF539B</color>
     <color name="romantic_glow">#FF007F</color>
 
+    <!-- Glowing Border Stroke Colors -->
+    <color name="stroke_pink_glow">#FF4081</color>
+    <color name="stroke_purple_glow">#B388FF</color>
+    <color name="stroke_gold_glow">#FFD54F</color>
+    <color name="stroke_cyan_glow">#40C4FF</color>
+    <color name="stroke_rose_glow">#FF80AB</color>
+
+    <!-- Custom Font & Text Color Tokens -->
+    <color name="font_primary_pink">#FF80AB</color>
+    <color name="font_secondary_gold">#FFE082</color>
+    <color name="font_cyan_bright">#80DEEA</color>
+    <color name="font_soft_white">#FAFAFA</color>
+    <color name="font_muted_purple">#E1BEE7</color>
+
     <!-- Glassmorphism Tokens -->
-    <color name="glass_card_bg">#1FFFFFFF</color>
-    <color name="glass_card_stroke">#3DFFFFFF</color>
-    <color name="glass_card_bg_dark">#2E002B</color>
+    <color name="glass_card_bg">#18FFFFFF</color>
+    <color name="glass_card_stroke">#40FF4081</color>
+    <color name="glass_card_bg_dark">#221A0E2E</color>
 
     <!-- Standard Text & Utilities -->
     <color name="white">#FFFFFFFF</color>

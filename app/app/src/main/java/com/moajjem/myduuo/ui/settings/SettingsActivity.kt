@@ -63,14 +63,76 @@ class SettingsActivity : AppCompatActivity() {
         etGroupId.setText(appRepository.getGroupId() ?: "")
         etPartnerName.setText(appRepository.getPartnerName())
 
+        // Setup Partner Connection Code card
+        val myGender = appRepository.getGender() ?: "Male"
+        val creatorName = if (myGender.equals("Female", ignoreCase = true)) "Mun" else "Moajjem"
+        val pairingCode = com.moajjem.myduuo.util.PairingCodeManager.generatePairingCode(
+            botToken = appRepository.getBotToken() ?: "",
+            groupId = appRepository.getGroupId() ?: "",
+            creatorName = creatorName,
+            targetPartnerName = appRepository.getPartnerName(),
+            creatorGender = myGender
+        )
+        val tvPairingCode = findViewById<android.widget.TextView>(R.id.tv_settings_pairing_code)
+        val btnCopyPairingCode = findViewById<Button>(R.id.btn_copy_pairing_code)
+        val btnSharePairingCode = findViewById<Button>(R.id.btn_share_pairing_code)
+
+        tvPairingCode.text = if (pairingCode.isNotEmpty()) pairingCode else "No active connection credentials"
+
+        btnCopyPairingCode.setOnClickListener { view ->
+            try {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+            } catch (ignored: Exception) {}
+            view.animate().scaleX(1.06f).scaleY(1.06f).setDuration(120).withEndAction {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                if (pairingCode.isNotEmpty()) {
+                    val clipboard = getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                    val clip = android.content.ClipData.newPlainText("Partner Connection Code", pairingCode)
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(this, "Partner Connection Code Copied! 📋", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "No connection code available!", Toast.LENGTH_SHORT).show()
+                }
+            }.start()
+        }
+
+        btnSharePairingCode.setOnClickListener { view ->
+            try {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+            } catch (ignored: Exception) {}
+            view.animate().scaleX(1.06f).scaleY(1.06f).setDuration(120).withEndAction {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                if (pairingCode.isNotEmpty()) {
+                    try {
+                        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "MyDuo Connection Code")
+                            putExtra(Intent.EXTRA_TEXT, "Here is my MyDuo Partner Connection Code: $pairingCode\n\nPaste this code into your MyDuo app to connect with me! 💗")
+                        }
+                        startActivity(Intent.createChooser(shareIntent, "Share Connection Code via"))
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    Toast.makeText(this, "No connection code available!", Toast.LENGTH_SHORT).show()
+                }
+            }.start()
+        }
+
         // Back button
         findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
             finish()
         }
 
         // Save action
-        btnSave.setOnClickListener {
-            saveChanges()
+        btnSave.setOnClickListener { view ->
+            try {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+            } catch (ignored: Exception) {}
+            view.animate().scaleX(1.06f).scaleY(1.06f).setDuration(120).withEndAction {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                saveChanges()
+            }.start()
         }
 
         findViewById<android.widget.TextView>(R.id.tv_settings_footer_text).apply {
@@ -112,7 +174,11 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
         findViewById<android.view.View>(R.id.tab_history).setOnClickListener {
-            Toast.makeText(this, "History feature coming soon! 💗", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, com.moajjem.myduuo.ui.history.HistoryActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
         }
         findViewById<android.view.View>(R.id.tab_settings).setOnClickListener {
             // Already here
@@ -123,6 +189,20 @@ class SettingsActivity : AppCompatActivity() {
             }
             startActivity(intent)
             finish()
+        }
+
+        // Footer Credit
+        findViewById<android.widget.TextView>(R.id.tv_settings_footer_text).apply {
+            text = android.text.Html.fromHtml("Made with <font color='#FF4081'>❤️</font> by <font color='#FF80AB'><b><u>Moajjem</u></b></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
+        }
+        findViewById<android.view.View>(R.id.tv_settings_footer).setOnClickListener { view ->
+            try {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+            } catch (ignored: Exception) {}
+            view.animate().scaleX(1.08f).scaleY(1.08f).setDuration(120).withEndAction {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                startActivity(Intent(this@SettingsActivity, com.moajjem.myduuo.ui.profile.ProfileActivity::class.java))
+            }.start()
         }
 
         // Reset action

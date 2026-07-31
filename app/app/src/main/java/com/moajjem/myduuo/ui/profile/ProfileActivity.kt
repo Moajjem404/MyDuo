@@ -69,33 +69,60 @@ class ProfileActivity : AppCompatActivity() {
             downloadAndCacheProfileImage(cacheFile, ivProfilePic)
         }
 
-        // Back button action
-        findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
-            finish()
+        // 1st Time Entrance Animation for [ ShadowGlint ]
+        val tvShadowGlint = findViewById<TextView>(R.id.tv_shadow_glint)
+        val tvBracketLeft = findViewById<TextView>(R.id.tv_bracket_left)
+        val tvBracketRight = findViewById<TextView>(R.id.tv_bracket_right)
+
+        if (tvShadowGlint != null && tvBracketLeft != null && tvBracketRight != null) {
+            tvShadowGlint.alpha = 0f
+            tvShadowGlint.scaleX = 0f
+            tvShadowGlint.scaleY = 0f
+
+            tvShadowGlint.postDelayed({
+                tvShadowGlint.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(900)
+                    .setInterpolator(android.view.animation.OvershootInterpolator(2.2f))
+                    .start()
+
+                tvBracketLeft.animate().scaleX(1.3f).scaleY(1.3f).setDuration(300).withEndAction {
+                    tvBracketLeft.animate().scaleX(1.0f).scaleY(1.0f).setDuration(250).start()
+                }.start()
+
+                tvBracketRight.animate().scaleX(1.3f).scaleY(1.3f).setDuration(300).withEndAction {
+                    tvBracketRight.animate().scaleX(1.0f).scaleY(1.0f).setDuration(250).start()
+                }.start()
+            }, 300)
         }
 
-        // GitHub Button action
-        findViewById<Button>(R.id.btn_github).setOnClickListener {
-            try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Moajjem404"))
-                startActivity(intent)
-            } catch (e: Exception) {
-                e.printStackTrace()
+        // Social Button helper with scale animation & haptics
+        fun setupSocialButton(buttonId: Int, url: String) {
+            findViewById<Button>(buttonId)?.setOnClickListener { view ->
+                try {
+                    view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+                } catch (ignored: Exception) {}
+                view.animate().scaleX(1.06f).scaleY(1.06f).setDuration(120).withEndAction {
+                    view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }.start()
             }
         }
 
-        // Telegram Button action
-        findViewById<Button>(R.id.btn_telegram).setOnClickListener {
-            try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/Moajjem404"))
-                startActivity(intent)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        // Facebook, Telegram, GitHub buttons
+        setupSocialButton(R.id.btn_facebook, "https://www.facebook.com/Md.Moajjem.Hossen404/")
+        setupSocialButton(R.id.btn_telegram, "https://t.me/Moajjem404")
+        setupSocialButton(R.id.btn_github, "https://github.com/Moajjem404")
 
         findViewById<TextView>(R.id.tv_profile_footer_text).apply {
-            text = android.text.Html.fromHtml("Made with ❤️ by <font color='#FF4081'><u>Moajjem</u></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
+            text = android.text.Html.fromHtml("Made with <font color='#FF4081'>❤️</font> by <font color='#FF80AB'><b><u>Moajjem</u></b></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
         }
 
         // Live partner status observing for header toolbar
@@ -137,7 +164,11 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
         findViewById<android.view.View>(R.id.tab_history).setOnClickListener {
-            android.widget.Toast.makeText(this, "History feature coming soon! 💗", android.widget.Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, com.moajjem.myduuo.ui.history.HistoryActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
         }
         findViewById<android.view.View>(R.id.tab_settings).setOnClickListener {
             val intent = Intent(this, com.moajjem.myduuo.ui.settings.SettingsActivity::class.java).apply {

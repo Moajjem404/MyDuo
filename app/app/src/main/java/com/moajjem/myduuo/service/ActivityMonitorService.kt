@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.moajjem.myduuo.R
 import com.moajjem.myduuo.MyDuoApplication
 import com.moajjem.myduuo.data.AppRepository
 import com.moajjem.myduuo.data.TelegramBotManager
@@ -37,6 +38,7 @@ class ActivityMonitorService : Service() {
 
     private var isScreenOn = true
     private var lastSharedApp: String? = null
+    private var lastReceivedPingTime: Long = 0L
     
     private var monitoringJob: kotlinx.coroutines.Job? = null
     private var partnerUpdatesJob: kotlinx.coroutines.Job? = null
@@ -103,10 +105,16 @@ class ActivityMonitorService : Service() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        val appLogoBitmap = try {
+            android.graphics.BitmapFactory.decodeResource(resources, R.drawable.app_logo)
+        } catch (e: Exception) {
+            null
+        }
+
         val builder = NotificationCompat.Builder(this, MyDuoApplication.CHANNEL_SERVICE_ID)
             .setContentTitle(statusText)
             .setContentText(contentText)
-            .setSmallIcon(android.R.drawable.btn_star_big_on)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
@@ -328,7 +336,7 @@ class ActivityMonitorService : Service() {
             }
 
             val json = JSONObject(trimmedText)
-            if (!json.has("app") || !json.has("time") || !json.has("sender")) {
+            if (!json.has("time") || !json.has("sender")) {
                 return // Missing required fields
             }
 
@@ -337,6 +345,24 @@ class ActivityMonitorService : Service() {
 
             // Ignore our own updates
             if (sender == mySenderId) {
+                return
+            }
+
+            // Check if payload is a Quick Love Ping
+            val msgType = json.optString("type", "")
+            if (msgType == "love_ping" || json.has("ping")) {
+                val pingMessage = json.optString("ping", "Sent you a Love Ping! 💗")
+                val timestampStr = json.optString("time", "")
+                val timestamp = timestampStr.toLongOrNull() ?: telegramTimestamp
+
+                if (timestamp > lastReceivedPingTime) {
+                    lastReceivedPingTime = timestamp
+                    showLovePingNotification(pingMessage, timestamp)
+                }
+                return
+            }
+
+            if (!json.has("app")) {
                 return
             }
 
@@ -362,6 +388,37 @@ class ActivityMonitorService : Service() {
         } catch (e: Exception) {
             Log.e(TAG, "Error processing incoming message: ${e.message}", e)
         }
+    }
+
+    private fun showLovePingNotification(pingMessage: String, timestamp: Long) {
+        val partnerName = appRepository.getPartnerName()
+        val title = "💌 $partnerName sent a Love Ping!"
+
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val appLogoBitmap = try {
+            android.graphics.BitmapFactory.decodeResource(resources, R.drawable.app_logo)
+        } catch (e: Exception) {
+            null
+        }
+
+        val builder = NotificationCompat.Builder(this, MyDuoApplication.CHANNEL_LOVE_PING_ID)
+            .setContentTitle(title)
+            .setContentText(pingMessage)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notifId = (System.currentTimeMillis() % 10000).toInt() + 2000
+        notificationManager.notify(notifId, builder.build())
     }
 
     private fun showPartnerUpdateNotification(appName: String, timestamp: Long) {

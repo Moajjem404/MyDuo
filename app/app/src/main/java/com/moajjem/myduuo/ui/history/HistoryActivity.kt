@@ -80,10 +80,16 @@ class HistoryActivity : AppCompatActivity() {
 
         // Footer Credit
         findViewById<TextView>(R.id.tv_history_footer_text).apply {
-            text = android.text.Html.fromHtml("Made with ❤️ by <font color='#FF4081'><u>Moajjem</u></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
+            text = android.text.Html.fromHtml("Made with <font color='#FF4081'>❤️</font> by <font color='#FF80AB'><b><u>Moajjem</u></b></font>", android.text.Html.FROM_HTML_MODE_LEGACY)
         }
-        findViewById<View>(R.id.tv_history_footer).setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+        findViewById<View>(R.id.tv_history_footer).setOnClickListener { view ->
+            try {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+            } catch (ignored: Exception) {}
+            view.animate().scaleX(1.08f).scaleY(1.08f).setDuration(120).withEndAction {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                startActivity(Intent(this@HistoryActivity, ProfileActivity::class.java))
+            }.start()
         }
 
         // Bottom Navigation Tab listeners
@@ -130,20 +136,30 @@ class HistoryActivity : AppCompatActivity() {
             layoutEmpty.visibility = View.GONE
             container.visibility = View.VISIBLE
 
-            for (item in historyList) {
-                val rowView = createHistoryRow(item.app, item.time)
+            val cardDrawables = listOf(
+                R.drawable.glass_card_pink_border,
+                R.drawable.glass_card_purple_border,
+                R.drawable.glass_card_cyan_border,
+                R.drawable.glass_card_gold_border
+            )
+
+            for ((index, item) in historyList.withIndex()) {
+                val drawableRes = cardDrawables[index % cardDrawables.size]
+                val rowView = createHistoryRow(item.app, item.time, drawableRes)
                 container.addView(rowView)
             }
         }
     }
 
-    private fun createHistoryRow(app: String, time: Long): View {
+    private fun createHistoryRow(app: String, time: Long, drawableRes: Int): View {
         // Root container for row item
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(dpToPx(16), dpToPx(12), dpToPx(16), dpToPx(12))
-            background = ContextCompat.getDrawable(this@HistoryActivity, R.drawable.glass_card)
+            setPadding(dpToPx(16), dpToPx(14), dpToPx(16), dpToPx(14))
+            background = ContextCompat.getDrawable(this@HistoryActivity, drawableRes)
+            isClickable = true
+            isFocusable = true
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -151,11 +167,20 @@ class HistoryActivity : AppCompatActivity() {
                 setMargins(0, 0, 0, dpToPx(12))
             }
             layoutParams = params
+            
+            setOnClickListener { view ->
+                try {
+                    view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+                } catch (ignored: Exception) {}
+                view.animate().scaleX(1.03f).scaleY(1.03f).setDuration(120).withEndAction {
+                    view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                }.start()
+            }
         }
 
         // Circular Image View
         val imageView = com.google.android.material.imageview.ShapeableImageView(this).apply {
-            val size = dpToPx(36)
+            val size = dpToPx(38)
             layoutParams = LinearLayout.LayoutParams(size, size)
             shapeAppearanceModel = shapeAppearanceModel.toBuilder()
                 .setAllCornerSizes(com.google.android.material.shape.RelativeCornerSize(0.5f))
@@ -170,7 +195,7 @@ class HistoryActivity : AppCompatActivity() {
         val textContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f).apply {
-                setMargins(dpToPx(16), 0, 0, 0)
+                setMargins(dpToPx(14), 0, 0, 0)
             }
             layoutParams = params
         }
@@ -179,7 +204,7 @@ class HistoryActivity : AppCompatActivity() {
         val tvTitle = TextView(this).apply {
             text = app
             setTextColor(Color.WHITE)
-            textSize = 16f
+            textSize = 15f
             typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.BOLD)
         }
         textContainer.addView(tvTitle)
@@ -191,17 +216,17 @@ class HistoryActivity : AppCompatActivity() {
             
             val diffSec = (System.currentTimeMillis() / 1000) - time
             val timeText = if (diffSec < 60) {
-                "Just now"
+                "Just now ⚡"
             } else if (diffSec < 3600) {
-                "${diffSec / 60} min ago"
+                "${diffSec / 60}m ago"
             } else {
-                "${diffSec / 3600} hours ago"
+                "${diffSec / 3600}h ago"
             }
             
-            text = "$formattedTime ($timeText)"
-            setTextColor(Color.parseColor("#B0BEC5"))
+            text = "$formattedTime • $timeText"
+            setTextColor(Color.parseColor("#E0E0E0"))
             textSize = 12f
-            setPadding(0, dpToPx(2), 0, 0)
+            setPadding(0, dpToPx(3), 0, 0)
         }
         textContainer.addView(tvDetail)
 
@@ -212,34 +237,33 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun mapAppIcon(appName: String, imageView: ImageView) {
         val cleanName = appName.trim().lowercase(Locale.getDefault())
-        val iconFile = File(filesDir, "${cleanName}_icon.png")
 
-        if (iconFile.exists()) {
-            try {
-                val bitmap = android.graphics.BitmapFactory.decodeFile(iconFile.absolutePath)
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap)
-                    return
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        // Fallback drawables
         val resId = when {
-            cleanName.contains("facebook") -> android.R.drawable.ic_menu_slideshow
-            cleanName.contains("youtube") -> android.R.drawable.ic_media_play
-            cleanName.contains("chrome") -> android.R.drawable.ic_menu_compass
-            cleanName.contains("telegram") -> android.R.drawable.ic_menu_send
-            cleanName.contains("messenger") -> android.R.drawable.ic_menu_gallery
-            cleanName.contains("instagram") -> android.R.drawable.ic_menu_camera
-            cleanName.contains("whatsapp") -> android.R.drawable.ic_menu_call
-            cleanName.contains("locked") -> android.R.drawable.ic_lock_idle_lock
-            else -> android.R.drawable.ic_menu_info_details
+            cleanName.contains("chrome") -> R.drawable.ic_app_chrome
+            cleanName.contains("facebook") && !cleanName.contains("messenger") && !cleanName.contains("orca") -> R.drawable.ic_app_facebook
+            cleanName.contains("telegram") || cleanName.contains("org.telegram") -> R.drawable.ic_app_telegram
+            cleanName.contains("messenger") || cleanName.contains("orca") || cleanName.contains("mlite") -> R.drawable.ic_app_messenger
+            cleanName.contains("instagram") -> R.drawable.ic_app_instagram
+            cleanName.contains("youtube") || cleanName.contains("yt") -> R.drawable.ic_app_youtube
+            cleanName.contains("whatsapp") -> R.drawable.ic_app_whatsapp
+            cleanName.contains("tiktok") || cleanName.contains("tik tok") || cleanName.contains("musically") -> R.drawable.ic_app_tiktok
+            cleanName.contains("twitter") || cleanName == "x" -> R.drawable.ic_app_twitter
+            cleanName.contains("snapchat") -> R.drawable.ic_app_snapchat
+            cleanName.contains("spotify") -> R.drawable.ic_app_spotify
+            cleanName.contains("netflix") -> R.drawable.ic_app_netflix
+            cleanName.contains("gmail") || cleanName.contains("mail") || cleanName.contains("android.gm") -> R.drawable.ic_app_gmail
+            cleanName.contains("discord") -> R.drawable.ic_app_discord
+            cleanName.contains("linkedin") -> R.drawable.ic_app_linkedin
+            cleanName.contains("reddit") -> R.drawable.ic_app_reddit
+            cleanName.contains("camera") -> R.drawable.ic_app_camera
+            cleanName.contains("phone") || cleanName.contains("dialer") || cleanName.contains("call") -> R.drawable.ic_app_phone
+            cleanName.contains("setting") -> R.drawable.ic_app_settings
+            cleanName.contains("launcher") || cleanName.contains("home") || cleanName.contains("poco") || cleanName.contains("pixel") || cleanName.contains("oneui") || cleanName.contains("miui") -> R.drawable.ic_app_launcher
+            cleanName.contains("locked") || cleanName.contains("lock") || cleanName.contains("screen off") || cleanName.contains("off") -> R.drawable.ic_app_locked
+            else -> R.drawable.ic_app_default
         }
         imageView.setImageResource(resId)
-        imageView.imageTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#FF4081"))
+        imageView.imageTintList = null
     }
 
     private fun dpToPx(dp: Int): Int {
