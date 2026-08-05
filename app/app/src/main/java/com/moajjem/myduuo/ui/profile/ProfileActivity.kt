@@ -43,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
             val pInfo = packageManager.getPackageInfo(packageName, 0)
             tvVersion.text = "Version: ${pInfo.versionName}"
         } catch (e: Exception) {
-            tvVersion.text = "Version: 0.3"
+            tvVersion.text = "Version: 0.4"
         }
 
         // Setup profile picture download & disk caching

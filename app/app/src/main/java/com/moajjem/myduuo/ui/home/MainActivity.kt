@@ -392,7 +392,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkForAppUpdates() {
         lifecycleScope.launch {
             val updateVersion = withContext(Dispatchers.IO) {
-                VersionChecker.checkVersion(0.3) // Current version: 0.3
+                VersionChecker.checkVersion(0.4) // Current version: 0.4
             }
 
             if (updateVersion != null) {

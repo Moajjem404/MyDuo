@@ -1,5 +1,14 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
 }
 
 android {
@@ -10,18 +19,21 @@ android {
         applicationId = "com.moajjem.myduuo"
         minSdk = 25
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.3"
+        versionCode = 4
+        versionName = "0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         create("release") {
-            storeFile = file("${System.getProperty("user.home")}/.android/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
+            val ksFile = localProperties.getProperty("KEYSTORE_FILE") ?: "moajjem-release-key.jks"
+            storeFile = file(ksFile)
+            storePassword = localProperties.getProperty("KEYSTORE_PASSWORD") ?: ""
+            keyAlias = localProperties.getProperty("KEY_ALIAS") ?: ""
+            keyPassword = localProperties.getProperty("KEY_PASSWORD") ?: ""
+            enableV1Signing = true
+            enableV2Signing = true
         }
     }
 

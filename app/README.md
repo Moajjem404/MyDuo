@@ -14,7 +14,7 @@
 
 <p align="center">
   <a href="https://github.com/Moajjem404/MyDuo/releases">
-    <img src="https://img.shields.io/badge/Version-0.3-ff4081?style=for-the-badge&logo=android" alt="Version 0.3">
+    <img src="https://img.shields.io/badge/Version-0.4-ff4081?style=for-the-badge&logo=android" alt="Version 0.4">
   </a>
   <a href="#-privacy--security">
     <img src="https://img.shields.io/badge/Privacy-100%25%20Serverless-2e002b?style=for-the-badge&logo=shield" alt="100% Serverless">
@@ -30,8 +30,8 @@
 Get the latest APK directly from the GitHub Releases page:
 
 <p align="center">
-  <a href="https://github.com/Moajjem404/MyDuo/releases/download/v0.3/app-release.apk">
-    <img src="https://img.shields.io/badge/📥%20Download%20APK%20(v0.3)-FF4081?style=for-the-badge&logoColor=white" height="45" alt="Download APK">
+  <a href="https://github.com/Moajjem404/MyDuo/releases/download/v0.4/app-release.apk">
+    <img src="https://img.shields.io/badge/📥%20Download%20APK%20(v0.4)-FF4081?style=for-the-badge&logoColor=white" height="45" alt="Download APK">
   </a>
 </p>
 

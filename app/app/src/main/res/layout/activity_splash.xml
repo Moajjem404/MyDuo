@@ -165,7 +165,7 @@
             android:id="@+id/tv_splash_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="v0.3"
+            android:text="v0.4"
             android:textColor="#50FFFFFF"
             android:textSize="12sp"
             android:layout_marginTop="12dp"

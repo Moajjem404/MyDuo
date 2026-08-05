@@ -187,7 +187,7 @@
                 android:layout_marginTop="2dp" />
         </LinearLayout>
 
-        <!-- Profile Tab -->
+        <!-- Dev Hub Tab -->
         <LinearLayout
             android:id="@+id/tab_profile"
             android:layout_width="0dp"
@@ -201,13 +201,13 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_nav_profile"
+                android:src="@drawable/ic_nav_dev_hub"
                 android:tint="#FF4081" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile"
+                android:text="Dev Hub"
                 android:textSize="11sp"
                 android:textColor="#FF4081"
                 android:layout_marginTop="2dp" />
@@ -461,7 +461,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="Version 0.3"
+                        android:text="Version 0.4"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-medium"
