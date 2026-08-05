@@ -28,7 +28,7 @@
 Get the latest APK directly from the GitHub Releases page:
 
 <p align="center">
-  <a href="https://github.com/Moajjem404/MyDuo/releases/download/Apk/app-release.apk">
+  <a href="https://github.com/Moajjem404/MyDuo/releases/download/0.4/app-release.apk">
     <img src="https://img.shields.io/badge/📥%20Download%20APK%20(v0.3)-FF4081?style=for-the-badge&logoColor=white" height="45" alt="Download APK">
   </a>
 </p>
@@ -82,7 +82,6 @@ This project is **100% Open Source**. Feel free to audit the code, contribute fe
 ---
 
 <p align="center">
-  ⚡ <b>Full Code Made By Vibe Coding</b> ⚡
   <br><br>
   Made with ❤️ by <a href="https://github.com/Moajjem404"><b>Moajjem</b></a>
 </p>
